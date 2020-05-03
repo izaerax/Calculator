@@ -4,19 +4,44 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var calcSheet : EditText
+    private lateinit var calcSheet : EditText
+    private lateinit var historyStack : ArrayList<String>
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var viewManager : RecyclerView.LayoutManager
+    private lateinit var viewAdapter : RecyclerView.Adapter<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        this.calcSheet = findViewById(R.id.editText)
-        this.calcSheet.setOnTouchListener(this)
+        calcSheet = findViewById(R.id.editText)
+        historyStack = java.util.ArrayList<String>()
+        historyStack.add("test");
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = HistoryAdapter(historyStack)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
+
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter
+            adapter = viewAdapter
+        }
+
         findViewById<Button>(R.id.button0).setOnClickListener(this)
         findViewById<Button>(R.id.button1).setOnClickListener(this)
         findViewById<Button>(R.id.button2).setOnClickListener(this)
@@ -67,14 +92,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchList
                 R.id.close_button-> calcSheet.append(")")
                 R.id.del_button  -> calcSheet.setText(calcSheet.text.substring(0, calcSheet.text.length-1))
                 R.id.clear_button-> calcSheet.setText("")
-                R.id.calculate_button ->
+                R.id.calculate_button -> {
                     calcSheet.setText((calculate(calcSheet.text.toString())).toString())
+                    historyStack.add(calcSheet.text.toString())
+                    viewAdapter.notifyDataSetChanged()
+
+                }
             }
         }
-    }
-
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        return true
     }
 
     fun calculate(expression : String): Float {
