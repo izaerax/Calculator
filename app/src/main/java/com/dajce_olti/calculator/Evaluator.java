@@ -33,7 +33,7 @@ public class Evaluator {
                 if(isValidOperator(currentToken.charAt(0))){
                     char operator = currentToken.charAt(0);
 
-                    if(operators_stack.empty() || operators_stack.lastElement() == '('){
+                    if(operators_stack.empty() || operator == '(' || operators_stack.lastElement() == '('){
                         operators_stack.push(operator);
                     } else if(!operators_stack.empty() && operator == ')'){
                         while(operators_stack.lastElement() != '('){

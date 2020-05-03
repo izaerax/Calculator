@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchList
         findViewById<Button>(R.id.clear_button).setOnClickListener(this)
         findViewById<Button>(R.id.calculate_button).setOnClickListener(this)
         findViewById<Button>(R.id.point_button).setOnClickListener(this)
+        findViewById<Button>(R.id.open_button).setOnClickListener(this)
+        findViewById<Button>(R.id.close_button).setOnClickListener(this)
     }
 
 
@@ -61,6 +63,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnTouchList
                 R.id.mod_button  -> calcSheet.append("%")
                 R.id.div_button  -> calcSheet.append("/")
                 R.id.point_button-> calcSheet.append(".")
+                R.id.open_button -> calcSheet.append("(")
+                R.id.close_button-> calcSheet.append(")")
                 R.id.del_button  -> calcSheet.setText(calcSheet.text.substring(0, calcSheet.text.length-1))
                 R.id.clear_button-> calcSheet.setText("")
                 R.id.calculate_button ->
