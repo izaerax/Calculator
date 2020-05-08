@@ -23,48 +23,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        calcSheet = findViewById(R.id.editText)
-        historyStack = java.util.ArrayList<String>()
-        historyStack.add("test");
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = HistoryAdapter(historyStack)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-
-            // use this setting to improve performance if you know that changes
-            // in content do not change the layout size of the RecyclerView
-            setHasFixedSize(true)
-
-            // use a linear layout manager
-            layoutManager = viewManager
-
-            // specify an viewAdapter
-            adapter = viewAdapter
-        }
-
-        findViewById<Button>(R.id.button0).setOnClickListener(this)
-        findViewById<Button>(R.id.button1).setOnClickListener(this)
-        findViewById<Button>(R.id.button2).setOnClickListener(this)
-        findViewById<Button>(R.id.button3).setOnClickListener(this)
-        findViewById<Button>(R.id.button4).setOnClickListener(this)
-        findViewById<Button>(R.id.button5).setOnClickListener(this)
-        findViewById<Button>(R.id.button6).setOnClickListener(this)
-        findViewById<Button>(R.id.button7).setOnClickListener(this)
-        findViewById<Button>(R.id.button8).setOnClickListener(this)
-        findViewById<Button>(R.id.button9).setOnClickListener(this)
-        findViewById<Button>(R.id.plus_button).setOnClickListener(this)
-        findViewById<Button>(R.id.minus_button).setOnClickListener(this)
-        findViewById<Button>(R.id.mult_button).setOnClickListener(this)
-        findViewById<Button>(R.id.mod_button).setOnClickListener(this)
-        findViewById<Button>(R.id.div_button).setOnClickListener(this)
-        findViewById<Button>(R.id.del_button).setOnClickListener(this)
-        findViewById<Button>(R.id.clear_button).setOnClickListener(this)
-        findViewById<Button>(R.id.calculate_button).setOnClickListener(this)
-        findViewById<Button>(R.id.point_button).setOnClickListener(this)
-        findViewById<Button>(R.id.open_button).setOnClickListener(this)
-        findViewById<Button>(R.id.close_button).setOnClickListener(this)
+        loadElements()
+        setListeners()
     }
-
 
     override fun onClick(v: View?) {
 
@@ -95,7 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.calculate_button -> {
                     calcSheet.setText((calculate(calcSheet.text.toString())).toString())
                     historyStack.add(calcSheet.text.toString())
-                    viewAdapter.notifyDataSetChanged()
+                    viewAdapter.notifyItemInserted(historyStack.size-1)
 
                 }
             }
@@ -107,4 +68,48 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         return evaluator.evaluate(expression)
     }
 
+    private fun loadElements(){
+        calcSheet = findViewById(R.id.editText)
+
+        //dataset
+        historyStack = java.util.ArrayList<String>()
+
+        //viewManager
+        viewManager = LinearLayoutManager(this@MainActivity)
+
+        //adapter
+        viewAdapter = HistoryAdapter(historyStack)
+
+        //recyclerView
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+
+    }
+
+    private fun setListeners(){
+        findViewById<Button>(R.id.button0).setOnClickListener(this)
+        findViewById<Button>(R.id.button1).setOnClickListener(this)
+        findViewById<Button>(R.id.button2).setOnClickListener(this)
+        findViewById<Button>(R.id.button3).setOnClickListener(this)
+        findViewById<Button>(R.id.button4).setOnClickListener(this)
+        findViewById<Button>(R.id.button5).setOnClickListener(this)
+        findViewById<Button>(R.id.button6).setOnClickListener(this)
+        findViewById<Button>(R.id.button7).setOnClickListener(this)
+        findViewById<Button>(R.id.button8).setOnClickListener(this)
+        findViewById<Button>(R.id.button9).setOnClickListener(this)
+        findViewById<Button>(R.id.plus_button).setOnClickListener(this)
+        findViewById<Button>(R.id.minus_button).setOnClickListener(this)
+        findViewById<Button>(R.id.mult_button).setOnClickListener(this)
+        findViewById<Button>(R.id.mod_button).setOnClickListener(this)
+        findViewById<Button>(R.id.div_button).setOnClickListener(this)
+        findViewById<Button>(R.id.del_button).setOnClickListener(this)
+        findViewById<Button>(R.id.clear_button).setOnClickListener(this)
+        findViewById<Button>(R.id.calculate_button).setOnClickListener(this)
+        findViewById<Button>(R.id.point_button).setOnClickListener(this)
+        findViewById<Button>(R.id.open_button).setOnClickListener(this)
+        findViewById<Button>(R.id.close_button).setOnClickListener(this)
+    }
 }

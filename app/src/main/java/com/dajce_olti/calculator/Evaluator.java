@@ -1,15 +1,15 @@
 package com.dajce_olti.calculator;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.Stack;
 
 public class Evaluator {
 
-    private String expression;
     private Stack<Float> values_stack;
     private Stack<Character> operators_stack;
 
-
-    public Evaluator(){
+    private Evaluator(){
         values_stack = new Stack<>();
         operators_stack = new Stack<>();
     }
@@ -75,6 +75,7 @@ public class Evaluator {
      * @param operator operator to evaluate
      * @return boolean
      */
+    @Contract(pure = true)
     private boolean isValidOperator(char operator){
         switch(operator){
             case '+':
