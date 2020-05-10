@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.del_button  -> calcSheet.setText(calcSheet.text.substring(0, calcSheet.text.length-1))
                 R.id.clear_button-> calcSheet.setText("")
                 R.id.calculate_button -> {
-                    calcSheet.setText((calculate(calcSheet.text.toString())).toString())
-                    historyStack.add(calcSheet.text.toString())
+                    val expression =  calcSheet.text.toString();
+                    calcSheet.setText((calculate(expression)).toString())
+                    historyStack.add(expression + "=" + calcSheet.text.toString())
                     viewAdapter.notifyItemInserted(historyStack.size-1)
-
                 }
             }
         }
